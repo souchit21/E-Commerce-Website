@@ -9,6 +9,7 @@ import { payUsingPaytm } from '../../service/api';
 
 import { addToCart } from '../../redux/actions/cartActions';
 import { useDispatch } from 'react-redux';
+import { notifySuccess } from '../../utils/notifyToasts';
 
 const LeftContainer = styled(Box)(({ theme }) => ({
     minWidth: '40%',
@@ -46,6 +47,7 @@ const ActionItem = ({ product }) => {
 
     const addItemToCart = () => {
         dispatch(addToCart(id, quantity));
+        notifySuccess("Successfully added one item to cart");
         navigate('/cart');
     }
 

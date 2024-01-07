@@ -1,11 +1,10 @@
 
 import axios from 'axios'
-
 const url = 'https://ecommercewebsite-backend.onrender.com';
 
 export const authenticateLogin = async (user) => {
     try {
-        return await axios.post(`${url}/login`, user)
+        return await axios.post(`${url}/login`, user);
     } catch (error) {
         console.log('Error while calling login API: ', error);
     }

@@ -2,12 +2,13 @@
 import{Dialog, Box, TextField,Typography, Button, styled} from '@mui/material';
 import { useState } from 'react';
 import { authenticateLogin, authenticateSignup } from '../../service/api';
+import { notifyError, notifySuccess } from '../../utils/notifyToasts';
 
 
 const Component = styled(Box)`
     display: flex;
-    height: 70vh;
-    width: 90vh;
+    height: 74vh;
+    width: 75vh;
 `
 const Image = styled(Box)`
     background: #2874f0;
@@ -23,7 +24,7 @@ const Wrapper=styled(Box)`
     & > div, & > button, & > p{
         margin-top:20px;
     }
-    width: 100%
+    width: 100%;
 `
 const LoginButton = styled(Button)`
     text-transform: none;
@@ -88,21 +89,33 @@ const LoginDialog = ({open, setOpen, acc, setAccount})=>{
 
     const loginUser = async() => {
         let response = await authenticateLogin(login);
-        console.log('91', response);
-        if(!response) 
+        //console.log('91', response);
+        
+        if(!response) {
             showError(true);
+            handleClose();
+            notifyError('Wrong Credentials');
+        }
         else {
+            notifySuccess("Loggedin Successfully");
             showError(false);
             handleClose();
             setAccount(login.username);
         }
+         
+         
     }
     
     const signupUser = async() => {
-        //console.log(signup);
+        
         let response = await authenticateSignup(signup);
-        if(!response) return;
+        console.log('110', response);
+        if(!response) {
+            notifyError('username already exist, use a different username');
+            return;
+        }
         handleClose();
+        notifySuccess("You have successfully signed up!")
         setAccount(signup.username);
     }
     const toggleSignup = () => {
@@ -131,12 +144,12 @@ const LoginDialog = ({open, setOpen, acc, setAccount})=>{
                             <CreateAccount onClick={() => toggleSignup()}>New to Flipkart? Create an account</CreateAccount> 
                         </Wrapper> : 
                         <Wrapper>
-                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='firstname' label='Enter Firstname' />
-                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='lastname' label='Enter Lastname' />
-                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='username' label='Enter Username' />
-                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='email' label='Enter Email' />
-                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='password' label='Enter Password' />
-                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='phone' label='Enter Phone' />
+                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='firstname' label='Enter Firstname*' />
+                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='lastname' label='Enter Lastname*' />
+                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='username' label='Enter Username*' />
+                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='email' label='Enter Email*' />
+                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='password' label='Enter Password*' />
+                            <TextField variant="standard" onChange={(e) => onInputChange(e)} name='phone' label='Enter Phone*' />
                             <LoginButton onClick={()=> signupUser()}>Continue</LoginButton>
                         </Wrapper>
                     }

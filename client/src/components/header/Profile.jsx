@@ -3,6 +3,7 @@ import { useState } from 'react';
 //import { Link } from 'react-router-dom';
 import { Typography, Menu, MenuItem, Box, styled } from '@mui/material';
 import { PowerSettingsNew } from '@mui/icons-material';
+import { notifySuccess } from '../../utils/notifyToasts';
 
 const Component = styled(Menu)`
     margin-top: 5px;
@@ -26,11 +27,13 @@ const Profile = ({ account, setAccount }) => {
 
     const logout = () => {
         setAccount('');
+        notifySuccess("Logged out successfully");
+
     }
     
     return (
         <>
-            <Box onClick={handleClick}><Typography style={{ marginTop: 2, cursor: 'pointer'}}>{account}</Typography></Box>
+            <Box onClick={handleClick}><Typography style={{marginTop: 2, cursor: 'pointer', fontWeight: 'bold'}}>{account}</Typography></Box>
             <Component
                 anchorEl={open}
                 open={Boolean(open)}
